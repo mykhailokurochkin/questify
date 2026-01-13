@@ -1,0 +1,30 @@
+# Dependencies
+node_modules
+/frontend/node_modules
+/backend/node_modules
+
+# Next.js
+/frontend/.next
+/frontend/out
+
+# NestJS
+/backend/dist
+/backend/coverage
+
+# Database
+*.db
+*.db-journal
+/backend/prisma/dev.db
+
+# Environment
+.env
+/frontend/.env
+/backend/.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode
+.idea
