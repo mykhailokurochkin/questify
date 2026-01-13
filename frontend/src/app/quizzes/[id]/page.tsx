@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { Loader2, ArrowLeft, CheckCircle2, Circle, Type, CheckSquare } from 'lucide-react';
+import { Loader2, ArrowLeft, Circle, Type, CheckSquare } from 'lucide-react';
 import Link from 'next/link';
 
 interface Question {
@@ -24,13 +24,7 @@ export default function QuizDetailPage() {
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (id) {
-      fetchQuiz();
-    }
-  }, [id]);
-
-  const fetchQuiz = async () => {
+  const fetchQuiz = useCallback(async () => {
     try {
       const response = await fetch(`http://localhost:3001/quizzes/${id}`);
       if (response.ok) {
@@ -44,7 +38,13 @@ export default function QuizDetailPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, router]);
+
+  useEffect(() => {
+    if (id) {
+      fetchQuiz();
+    }
+  }, [id, fetchQuiz]);
 
   if (loading) {
     return (

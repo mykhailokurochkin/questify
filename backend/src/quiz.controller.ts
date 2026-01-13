@@ -3,7 +3,7 @@ import { QuizService } from './quiz.service';
 
 @Controller('quizzes')
 export class QuizController {
-  constructor(private readonly quizService: QuizService) { }
+  constructor(private readonly quizService: QuizService) {}
 
   @Post()
   create(@Body() createQuizDto: { title: string; questions: any[] }) {

@@ -151,7 +151,7 @@ export default function CreateQuizPage() {
                             value={type.id}
                             className="sr-only"
                             onChange={() => {
-                              setValue(`questions.${index}.type`, type.id as any);
+                              setValue(`questions.${index}.type`, type.id as 'BOOLEAN' | 'INPUT' | 'CHECKBOX');
                               if (type.id === 'CHECKBOX' && !watch(`questions.${index}.options`)) {
                                 setValue(`questions.${index}.options`, ['', '']);
                               }
