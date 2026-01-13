@@ -3,7 +3,7 @@ import { PrismaService } from './prisma.service';
 
 @Injectable()
 export class QuizService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async createQuiz(data: { title: string; questions: any[] }) {
     return this.prisma.quiz.create({
@@ -72,6 +72,28 @@ export class QuizService {
   async deleteQuiz(id: string) {
     return this.prisma.quiz.delete({
       where: { id },
+    });
+  }
+
+  async duplicateQuiz(id: string) {
+    const existing = await this.prisma.quiz.findUnique({
+      where: { id },
+      include: { questions: true },
+    });
+
+    if (!existing) return null;
+
+    return this.prisma.quiz.create({
+      data: {
+        title: `${existing.title} (Copy)`,
+        questions: {
+          create: existing.questions.map((q) => ({
+            text: q.text,
+            type: q.type,
+            options: q.options,
+          })),
+        },
+      },
     });
   }
 }

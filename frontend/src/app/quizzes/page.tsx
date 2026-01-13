@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Trash2, ChevronRight, ArrowRight, Loader2, Info, Pencil } from 'lucide-react';
+import { Trash2, ChevronRight, ArrowRight, Loader2, Info, Pencil, Search } from 'lucide-react';
 import { toast } from 'sonner';
 import ConfirmModal from '@/components/ConfirmModal';
 
@@ -17,6 +17,7 @@ interface QuizItem {
 export default function QuizzesPage() {
   const [quizzes, setQuizzes] = useState<QuizItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
   const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; id: string | null }>({
     isOpen: false,
     id: null,
@@ -25,6 +26,10 @@ export default function QuizzesPage() {
   useEffect(() => {
     fetchQuizzes();
   }, []);
+
+  const filteredQuizzes = quizzes.filter((quiz) =>
+    quiz.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const fetchQuizzes = async () => {
     try {
@@ -81,6 +86,19 @@ export default function QuizzesPage() {
         </Link>
       </div>
 
+      <div className="mb-8 relative">
+        <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+          <Search className="h-5 w-5 text-zinc-400" />
+        </div>
+        <input
+          type="text"
+          placeholder="Search quizzes by title..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full rounded-2xl border border-zinc-200 bg-white py-4 pl-12 pr-4 text-zinc-900 outline-none transition-all focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-zinc-50 dark:focus:border-indigo-400"
+        />
+      </div>
+
       {quizzes.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-zinc-200 py-20 text-center dark:border-zinc-800">
           <div className="mb-4 rounded-full bg-zinc-100 p-4 dark:bg-zinc-900">
@@ -95,9 +113,19 @@ export default function QuizzesPage() {
             Create first quiz <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
+      ) : filteredQuizzes.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-10 text-center">
+          <p className="text-zinc-500 dark:text-zinc-400">No quizzes match "{searchQuery}"</p>
+          <button
+            onClick={() => setSearchQuery('')}
+            className="mt-2 font-bold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400"
+          >
+            Clear search
+          </button>
+        </div>
       ) : (
         <div className="grid gap-4">
-          {quizzes.map((quiz) => (
+          {filteredQuizzes.map((quiz) => (
             <Link
               key={quiz.id}
               href={`/quizzes/${quiz.id}`}

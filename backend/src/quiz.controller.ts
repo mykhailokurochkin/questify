@@ -11,7 +11,7 @@ import { QuizService } from './quiz.service';
 
 @Controller('quizzes')
 export class QuizController {
-  constructor(private readonly quizService: QuizService) {}
+  constructor(private readonly quizService: QuizService) { }
 
   @Post()
   create(@Body() createQuizDto: { title: string; questions: any[] }) {
@@ -39,5 +39,10 @@ export class QuizController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.quizService.deleteQuiz(id);
+  }
+
+  @Post(':id/duplicate')
+  duplicate(@Param('id') id: string) {
+    return this.quizService.duplicateQuiz(id);
   }
 }
