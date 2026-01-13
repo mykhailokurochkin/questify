@@ -112,7 +112,7 @@ export default function CreateQuizPage() {
                 <button
                   type="button"
                   onClick={() => remove(index)}
-                  className="absolute right-6 top-6 rounded-full p-2.5 text-zinc-400 transition-colors hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-950/30"
+                  className="absolute right-4 top-4 rounded-full p-2.5 text-zinc-400 transition-colors hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-950/30"
                 >
                   <Trash2 className="h-5 w-5" />
                 </button>

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Trash2, ChevronRight, ArrowRight, Loader2, Info } from 'lucide-react';
 import { toast } from 'sonner';
+import ConfirmModal from '@/components/ConfirmModal';
 
 interface QuizItem {
   id: string;
@@ -16,6 +17,10 @@ interface QuizItem {
 export default function QuizzesPage() {
   const [quizzes, setQuizzes] = useState<QuizItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; id: string | null }>({
+    isOpen: false,
+    id: null,
+  });
 
   useEffect(() => {
     fetchQuizzes();
@@ -35,12 +40,7 @@ export default function QuizzesPage() {
     }
   };
 
-  const deleteQuiz = async (id: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!confirm('Are you sure you want to delete this quiz?')) return;
-
+  const deleteQuiz = async (id: string) => {
     try {
       const response = await fetch(`http://localhost:3001/quizzes/${id}`, {
         method: 'DELETE',
@@ -118,7 +118,11 @@ export default function QuizzesPage() {
               </div>
               <div className="flex items-center gap-4">
                 <button
-                  onClick={(e) => deleteQuiz(quiz.id, e)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setDeleteModal({ isOpen: true, id: quiz.id });
+                  }}
                   className="rounded-full p-2.5 text-zinc-400 transition-colors hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-950/30"
                 >
                   <Trash2 className="h-5 w-5" />
@@ -129,6 +133,14 @@ export default function QuizzesPage() {
           ))}
         </div>
       )}
+
+      <ConfirmModal
+        isOpen={deleteModal.isOpen}
+        title="Delete Quiz?"
+        message="This action cannot be undone. Are you sure you want to delete this quiz?"
+        onConfirm={() => deleteModal.id && deleteQuiz(deleteModal.id)}
+        onClose={() => setDeleteModal({ isOpen: false, id: null })}
+      />
     </div>
   );
 }
