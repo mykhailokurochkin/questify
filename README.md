@@ -97,3 +97,50 @@ cd frontend && npm run lint
 # Backend
 cd backend && npm run lint
 ```
+
+## 🚀 Deployment
+
+### Frontend (Vercel)
+
+The frontend is deployed on Vercel. To deploy your own instance:
+
+1. Fork this repository
+2. Import the project to Vercel
+3. Set the root directory to `frontend`
+4. Add environment variable:
+   - `NEXT_PUBLIC_API_URL`: Your backend API URL
+5. Deploy
+
+### Backend (Railway/Render)
+
+The backend can be deployed on Railway or Render:
+
+#### Railway:
+1. Create a new project on [Railway](https://railway.app)
+2. Connect your GitHub repository
+3. Set the root directory to `backend`
+4. Railway will auto-detect the NestJS app
+5. Add environment variable `DATABASE_URL` (optional, uses SQLite by default)
+6. Deploy
+
+#### Render:
+1. Create a new Web Service on [Render](https://render.com)
+2. Connect your GitHub repository
+3. Set:
+   - **Root Directory**: `backend`
+   - **Build Command**: `npm install && npm run build`
+   - **Start Command**: `npm run start:prod`
+4. Deploy
+
+### Environment Variables
+
+**Frontend** (`.env.local`):
+```
+NEXT_PUBLIC_API_URL=https://your-backend-url.com
+```
+
+**Backend**:
+```
+DATABASE_URL=file:./dev.db
+PORT=3001
+```

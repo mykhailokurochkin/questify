@@ -14,6 +14,8 @@ interface QuizItem {
   };
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
 export default function QuizzesPage() {
   const [quizzes, setQuizzes] = useState<QuizItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -33,7 +35,7 @@ export default function QuizzesPage() {
 
   const fetchQuizzes = async () => {
     try {
-      const response = await fetch('http://localhost:3001/quizzes');
+      const response = await fetch(`${API_URL}/quizzes`);
       if (response.ok) {
         const data = await response.json();
         setQuizzes(data);
@@ -47,7 +49,7 @@ export default function QuizzesPage() {
 
   const deleteQuiz = async (id: string) => {
     try {
-      const response = await fetch(`http://localhost:3001/quizzes/${id}`, {
+      const response = await fetch(`${API_URL}/quizzes/${id}`, {
         method: 'DELETE',
       });
 
@@ -67,7 +69,7 @@ export default function QuizzesPage() {
     e.preventDefault();
     e.stopPropagation();
     try {
-      const response = await fetch(`http://localhost:3001/quizzes/${id}/duplicate`, {
+      const response = await fetch(`${API_URL}/quizzes/${id}/duplicate`, {
         method: 'POST',
       });
       if (response.ok) {

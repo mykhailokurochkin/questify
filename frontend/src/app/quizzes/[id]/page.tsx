@@ -18,6 +18,8 @@ interface Quiz {
   questions: Question[];
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
 export default function QuizDetailPage() {
   const { id } = useParams();
   const router = useRouter();
@@ -26,7 +28,7 @@ export default function QuizDetailPage() {
 
   const fetchQuiz = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost:3001/quizzes/${id}`);
+      const response = await fetch(`${API_URL}/quizzes/${id}`);
       if (response.ok) {
         const data = await response.json();
         setQuiz(data);

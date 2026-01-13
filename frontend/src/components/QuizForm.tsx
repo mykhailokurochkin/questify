@@ -21,6 +21,8 @@ const quizSchema = z.object({
 
 export type QuizFormValues = z.infer<typeof quizSchema>;
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
 interface QuizFormProps {
   mode: 'create' | 'edit';
   quizId?: string;
@@ -58,7 +60,7 @@ export default function QuizForm({ mode, quizId, initialData, onLoadingChange }:
     if (mode === 'create' || !quizId) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/quizzes/${quizId}`);
+      const response = await fetch(`${API_URL}/quizzes/${quizId}`);
       if (response.ok) {
         const data = await response.json();
         reset({
@@ -92,8 +94,8 @@ export default function QuizForm({ mode, quizId, initialData, onLoadingChange }:
     setIsSubmitting(true);
     try {
       const url = mode === 'create'
-        ? 'http://localhost:3001/quizzes'
-        : `http://localhost:3001/quizzes/${quizId}`;
+        ? `${API_URL}/quizzes`
+        : `${API_URL}/quizzes/${quizId}`;
 
       const method = mode === 'create' ? 'POST' : 'PATCH';
 
@@ -192,8 +194,8 @@ export default function QuizForm({ mode, quizId, initialData, onLoadingChange }:
                       <label
                         key={type.id}
                         className={`flex cursor-pointer items-center justify-center gap-3 rounded-2xl border p-4 transition-all ${watch(`questions.${index}.type`) === type.id
-                            ? 'border-indigo-500 bg-indigo-50/50 text-indigo-600 dark:border-indigo-400 dark:bg-indigo-950/20 dark:text-indigo-400'
-                            : 'border-zinc-200 bg-zinc-50 text-zinc-600 hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:border-zinc-700'
+                          ? 'border-indigo-500 bg-indigo-50/50 text-indigo-600 dark:border-indigo-400 dark:bg-indigo-950/20 dark:text-indigo-400'
+                          : 'border-zinc-200 bg-zinc-50 text-zinc-600 hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:border-zinc-700'
                           }`}
                       >
                         <input
