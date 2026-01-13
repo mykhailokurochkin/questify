@@ -70,7 +70,7 @@ If you prefer to run services individually:
 cd backend
 npm install
 npx prisma migrate dev
-npm run start:dev
+npm run start:local
 ```
 
 #### Frontend
