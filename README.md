@@ -42,24 +42,17 @@ questify/
 - **Node.js**: v18 or newer (tested on v19.9.0)
 - **npm**: v9 or newer
 
-### Quick Start (Concurrent Mode)
+### Quick Start (Prepare in one command)
 
-The project is configured to run both the frontend and backend simultaneously from the root directory.
+The project is configured to run both the frontend and backend simultaneously.
 
-1. **Clone and Install**:
+1. **Setup & Install**:
+This will install all dependencies, generate Prisma client, and initialize the database.
 ```bash
-# In the root directory
-npm run install:all
+npm run setup
 ```
 
-2. **Initialize Database**:
-```bash
-cd backend
-npx prisma migrate dev --name init
-cd ..
-```
-
-3. **Run Development Server**:
+2. **Run Development Server**:
 ```bash
 npm run dev
 ```
