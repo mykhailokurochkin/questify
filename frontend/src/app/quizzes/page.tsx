@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Trash2, ChevronRight, ArrowRight, Loader2, Info, Pencil, Search } from 'lucide-react';
+import { Trash2, ChevronRight, ArrowRight, Loader2, Info, Pencil, Search, Copy } from 'lucide-react';
 import { toast } from 'sonner';
 import ConfirmModal from '@/components/ConfirmModal';
 
@@ -60,6 +60,25 @@ export default function QuizzesPage() {
     } catch (error) {
       console.error(error);
       toast.error('Error deleting quiz');
+    }
+  };
+
+  const duplicateQuiz = async (id: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const response = await fetch(`http://localhost:3001/quizzes/${id}/duplicate`, {
+        method: 'POST',
+      });
+      if (response.ok) {
+        toast.success('Quiz duplicated successfully');
+        fetchQuizzes();
+      } else {
+        toast.error('Failed to duplicate quiz');
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Error duplicating quiz');
     }
   };
 
@@ -145,6 +164,13 @@ export default function QuizzesPage() {
                 </div>
               </div>
               <div className="flex items-center gap-4">
+                <button
+                  onClick={(e) => duplicateQuiz(quiz.id, e)}
+                  title="Duplicate Quiz"
+                  className="rounded-full p-2.5 text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-800"
+                >
+                  <Copy className="h-5 w-5" />
+                </button>
                 <Link
                   href={`/quizzes/${quiz.id}/edit`}
                   onClick={(e) => e.stopPropagation()}
