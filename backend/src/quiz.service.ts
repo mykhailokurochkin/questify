@@ -49,6 +49,26 @@ export class QuizService {
     return quiz;
   }
 
+  async updateQuiz(id: string, data: { title: string; questions: any[] }) {
+    return this.prisma.$transaction(async (tx) => {
+      await tx.question.deleteMany({ where: { quizId: id } });
+
+      return tx.quiz.update({
+        where: { id },
+        data: {
+          title: data.title,
+          questions: {
+            create: data.questions.map((q) => ({
+              text: q.text,
+              type: q.type,
+              options: q.options ? JSON.stringify(q.options) : null,
+            })),
+          },
+        },
+      });
+    });
+  }
+
   async deleteQuiz(id: string) {
     return this.prisma.quiz.delete({
       where: { id },

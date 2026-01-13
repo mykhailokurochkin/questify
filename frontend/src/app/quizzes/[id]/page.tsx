@@ -66,11 +66,19 @@ export default function QuizDetailPage() {
         Back to Quizzes
       </Link>
 
-      <div className="mb-10">
-        <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">{quiz.title}</h1>
-        <p className="mt-2 text-zinc-600 dark:text-zinc-400 text-lg">
-          Viewing quiz structure ({quiz.questions.length} questions).
-        </p>
+      <div className="mb-10 flex items-start justify-between">
+        <div>
+          <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">{quiz.title}</h1>
+          <p className="mt-2 text-zinc-600 dark:text-zinc-400 text-lg">
+            Viewing quiz structure ({quiz.questions.length} questions).
+          </p>
+        </div>
+        <Link
+          href={`/quizzes/${quiz.id}/edit`}
+          className="rounded-full bg-zinc-100 px-6 py-2.5 text-sm font-bold text-zinc-900 transition-all hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-50 dark:hover:bg-zinc-700"
+        >
+          Edit Quiz
+        </Link>
       </div>
 
       <div className="space-y-6">

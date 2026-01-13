@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Patch,
+} from '@nestjs/common';
 import { QuizService } from './quiz.service';
 
 @Controller('quizzes')
@@ -18,6 +26,14 @@ export class QuizController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.quizService.getQuizById(id);
+  }
+
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateQuizDto: { title: string; questions: any[] },
+  ) {
+    return this.quizService.updateQuiz(id, updateQuizDto);
   }
 
   @Delete(':id')

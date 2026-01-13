@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Trash2, ChevronRight, ArrowRight, Loader2, Info } from 'lucide-react';
+import { Trash2, ChevronRight, ArrowRight, Loader2, Info, Pencil } from 'lucide-react';
 import { toast } from 'sonner';
 import ConfirmModal from '@/components/ConfirmModal';
 
@@ -117,6 +117,13 @@ export default function QuizzesPage() {
                 </div>
               </div>
               <div className="flex items-center gap-4">
+                <Link
+                  href={`/quizzes/${quiz.id}/edit`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="rounded-full p-2.5 text-zinc-400 transition-colors hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-950/30"
+                >
+                  <Pencil className="h-5 w-5" />
+                </Link>
                 <button
                   onClick={(e) => {
                     e.preventDefault();
