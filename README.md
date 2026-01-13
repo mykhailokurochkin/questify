@@ -39,6 +39,7 @@ A full-stack application to create and view quizzes.
 
 ### Running the application
 
+- **Both (Concurrent)**: `npm run dev` (from the root directory)
 - **Backend**: `cd backend && npm run start:dev`
 - **Frontend**: `cd frontend && npm run dev`
 
