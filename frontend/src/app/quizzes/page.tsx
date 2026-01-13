@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Trash2, ChevronRight, ArrowRight, Loader2, Info } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface QuizItem {
   id: string;
@@ -47,9 +48,13 @@ export default function QuizzesPage() {
 
       if (response.ok) {
         setQuizzes((prev) => prev.filter((q) => q.id !== id));
+        toast.success('Quiz deleted successfully');
+      } else {
+        toast.error('Failed to delete quiz');
       }
     } catch (error) {
       console.error(error);
+      toast.error('Error deleting quiz');
     }
   };
 

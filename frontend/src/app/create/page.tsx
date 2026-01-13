@@ -5,6 +5,8 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Plus, Trash2, Circle, Type, CheckSquare, Save, PlusCircle, X } from 'lucide-react';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const questionSchema = z.object({
   text: z.string().min(1, 'Question text is required'),
@@ -21,6 +23,7 @@ type QuizFormValues = z.infer<typeof quizSchema>;
 
 export default function CreateQuizPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   const {
     register,
@@ -54,14 +57,14 @@ export default function CreateQuizPage() {
       });
 
       if (response.ok) {
-        alert('Quiz created successfully!');
-        window.location.href = '/quizzes';
+        toast.success('Quiz created successfully!');
+        router.push('/quizzes');
       } else {
-        alert('Failed to create quiz');
+        toast.error('Failed to create quiz');
       }
     } catch (error) {
       console.error(error);
-      alert('Could not connect to the server');
+      toast.error('Could not connect to the server');
     } finally {
       setIsSubmitting(false);
     }
